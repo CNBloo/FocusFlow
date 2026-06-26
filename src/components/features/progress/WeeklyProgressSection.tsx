@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, SectionHeader } from "@/components/ui";
-import { ChartIcon } from "@/components/icons";
+import { ChartIcon } from "@/components/shared/icons";
 import { STORAGE_KEYS } from "@/lib/constants";
 import type { DiceStats, Goal, Task } from "@/lib/types";
 import { getWeeklyStats } from "@/lib/utils";

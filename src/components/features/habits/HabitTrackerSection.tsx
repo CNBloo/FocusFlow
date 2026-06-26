@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button, Card, Input, SectionHeader } from "@/components/ui";
-import { FlameIcon, PlusIcon, TrashIcon } from "@/components/icons";
+import { FlameIcon, PlusIcon, TrashIcon } from "@/components/shared/icons";
 import { DEFAULT_HABITS, STORAGE_KEYS } from "@/lib/constants";
 import type { Habit } from "@/lib/types";
 import { calculateStreak, generateId, toDateKey } from "@/lib/utils";

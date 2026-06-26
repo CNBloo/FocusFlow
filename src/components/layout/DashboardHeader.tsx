@@ -8,7 +8,7 @@ import {
   MoonIcon,
   SunIcon,
   TargetIcon,
-} from "@/components/icons";
+} from "@/components/shared/icons";
 import { MOTIVATIONAL_MESSAGES, STORAGE_KEYS } from "@/lib/constants";
 import type { DiceStats, Goal, Task, Theme } from "@/lib/types";
 import {

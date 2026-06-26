@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button, Card, SectionHeader } from "@/components/ui";
-import { TimerIcon } from "@/components/icons";
+import { TimerIcon } from "@/components/shared/icons";
 
 const PRESETS = [
   { label: "25 min", seconds: 25 * 60 },

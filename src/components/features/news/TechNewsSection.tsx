@@ -2,9 +2,9 @@
 
 import { useCallback, useState } from "react";
 import { Badge, Button, Card, EmptyState, SectionHeader } from "@/components/ui";
-import { ExternalLinkIcon, NewsIcon, RefreshIcon } from "@/components/icons";
+import { ExternalLinkIcon, NewsIcon, RefreshIcon } from "@/components/shared/icons";
 import { CATEGORY_COLORS } from "@/lib/constants";
-import { fetchMockNews } from "@/lib/mockNews";
+import { fetchMockNews } from "@/lib/newsData";
 import type { NewsItem } from "@/lib/types";
 
 interface TechNewsSectionProps {

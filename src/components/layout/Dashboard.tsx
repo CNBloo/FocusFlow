@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { DiceRollSection } from "@/components/DiceRollSection";
-import { ThemeProvider } from "@/components/DashboardHeader";
-import { FocusModeTimer } from "@/components/FocusModeTimer";
-import { GoalsSection } from "@/components/GoalsSection";
-import { HabitTrackerSection } from "@/components/HabitTrackerSection";
-import { PlaceholderSection } from "@/components/PlaceholderSection";
-import { TasksSection } from "@/components/TasksSection";
-import { TechNewsSection } from "@/components/TechNewsSection";
-import { WeeklyProgressSection } from "@/components/WeeklyProgressSection";
+import { DiceRollSection } from "@/components/features/dice/DiceRollSection";
+import { ThemeProvider } from "@/components/layout/DashboardHeader";
+import { FocusModeTimer } from "@/components/features/focus/FocusModeTimer";
+import { GoalsSection } from "@/components/features/goals/GoalsSection";
+import { HabitTrackerSection } from "@/components/features/habits/HabitTrackerSection";
+import { PlaceholderSection } from "@/components/shared/PlaceholderSection";
+import { TasksSection } from "@/components/features/tasks/TasksSection";
+import { TechNewsSection } from "@/components/features/news/TechNewsSection";
+import { WeeklyProgressSection } from "@/components/features/progress/WeeklyProgressSection";
 import type { NewsItem } from "@/lib/types";
 
 interface DashboardProps {

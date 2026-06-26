@@ -10,7 +10,7 @@ import {
   SectionHeader,
   Select,
 } from "@/components/ui";
-import { PlusIcon, TargetIcon, TrashIcon } from "@/components/icons";
+import { PlusIcon, TargetIcon, TrashIcon } from "@/components/shared/icons";
 import {
   CATEGORY_COLORS,
   GOAL_CATEGORIES,

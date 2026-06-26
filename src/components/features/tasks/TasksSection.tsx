@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button, Card, EmptyState, Input, SectionHeader, Select } from "@/components/ui";
-import { CheckIcon, ListIcon, PlusIcon, TrashIcon } from "@/components/icons";
+import { CheckIcon, ListIcon, PlusIcon, TrashIcon } from "@/components/shared/icons";
 import { STORAGE_KEYS } from "@/lib/constants";
 import type { Priority, Task } from "@/lib/types";
 import { generateId } from "@/lib/utils";
