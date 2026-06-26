@@ -1,9 +1,10 @@
-import type { DiceIdea, GoalCategory, IdeaCategory } from "./types";
+import type { DiceIdea, GoalCategory, Habit, IdeaCategory, Priority } from "./types";
 
 export const STORAGE_KEYS = {
   ideas: "productivity-ideas",
   goals: "productivity-goals",
   tasks: "productivity-tasks",
+  habits: "productivity-habits",
   diceStats: "productivity-dice-stats",
   theme: "productivity-theme",
 } as const;
@@ -14,6 +15,8 @@ export const GOAL_CATEGORIES: GoalCategory[] = [
   "School",
   "Career",
   "Personal",
+  "Finances",
+  "Health",
 ];
 
 export const IDEA_CATEGORIES: IdeaCategory[] = [
@@ -47,6 +50,21 @@ export const MOTIVATIONAL_MESSAGES = [
   "Replace distraction with intention. You've got this.",
 ];
 
+export const PRIORITY_COLORS: Record<Priority, string> = {
+  low: "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300",
+  medium: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+  high: "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300",
+};
+
+export const DEFAULT_HABITS: Omit<Habit, "completedDates">[] = [
+  { id: "h1", label: "LeetCode", icon: "💻" },
+  { id: "h2", label: "Workout", icon: "🏋️" },
+  { id: "h3", label: "Read", icon: "📚" },
+  { id: "h4", label: "No doom scrolling", icon: "🚫" },
+  { id: "h5", label: "Drink water", icon: "💧" },
+  { id: "h6", label: "Sleep on time", icon: "😴" },
+];
+
 export const CATEGORY_COLORS: Record<string, string> = {
   Coding: "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300",
   Fitness: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
@@ -65,4 +83,5 @@ export const CATEGORY_COLORS: Record<string, string> = {
     "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300",
   Startups: "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300",
   Cloud: "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300",
+  Finances: "bg-lime-100 text-lime-700 dark:bg-lime-900/40 dark:text-lime-300",
 };

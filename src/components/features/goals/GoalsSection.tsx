@@ -11,8 +11,13 @@ import {
   Select,
 } from "@/components/ui";
 import { PlusIcon, TargetIcon, TrashIcon } from "@/components/icons";
-import { CATEGORY_COLORS, GOAL_CATEGORIES, STORAGE_KEYS } from "@/lib/constants";
-import type { Goal, GoalCategory } from "@/lib/types";
+import {
+  CATEGORY_COLORS,
+  GOAL_CATEGORIES,
+  PRIORITY_COLORS,
+  STORAGE_KEYS,
+} from "@/lib/constants";
+import type { Goal, GoalCategory, Priority } from "@/lib/types";
 import { clampProgress, generateId } from "@/lib/utils";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
@@ -20,6 +25,8 @@ export function GoalsSection() {
   const [goals, setGoals] = useLocalStorage<Goal[]>(STORAGE_KEYS.goals, []);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<GoalCategory>("Coding");
+  const [priority, setPriority] = useState<Priority>("medium");
+  const [deadline, setDeadline] = useState("");
   const [showForm, setShowForm] = useState(false);
 
   const handleAdd = (e: React.FormEvent) => {
@@ -32,12 +39,15 @@ export function GoalsSection() {
         id: generateId(),
         title: trimmed,
         category,
+        priority,
+        deadline: deadline || undefined,
         progress: 0,
         status: "active",
         createdAt: new Date().toISOString(),
       },
     ]);
     setTitle("");
+    setDeadline("");
     setShowForm(false);
   };
 
@@ -84,26 +94,46 @@ export function GoalsSection() {
       />
 
       {showForm && (
-        <form onSubmit={handleAdd} className="mb-5 flex flex-col gap-2 sm:flex-row">
-          <Input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Goal title..."
-            className="flex-1"
-            autoFocus
-          />
-          <Select
-            value={category}
-            onChange={(e) => setCategory(e.target.value as GoalCategory)}
-            className="sm:w-36"
-          >
-            {GOAL_CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </Select>
-          <Button type="submit">Add</Button>
+        <form onSubmit={handleAdd} className="mb-5 space-y-2">
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Goal title..."
+              className="flex-1"
+              autoFocus
+            />
+            <Select
+              value={category}
+              onChange={(e) => setCategory(e.target.value as GoalCategory)}
+              className="sm:w-36"
+            >
+              {GOAL_CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Select
+              value={priority}
+              onChange={(e) => setPriority(e.target.value as Priority)}
+              className="sm:w-36"
+            >
+              <option value="low">Low priority</option>
+              <option value="medium">Medium priority</option>
+              <option value="high">High priority</option>
+            </Select>
+            <Input
+              type="date"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+              className="flex-1"
+              placeholder="Deadline (optional)"
+            />
+            <Button type="submit">Add</Button>
+          </div>
         </form>
       )}
 
@@ -160,14 +190,31 @@ function GoalItem({
   onComplete: (id: string) => void;
   onDelete: (id: string) => void;
 }) {
+  const deadlineLabel = goal.deadline
+    ? new Date(goal.deadline + "T12:00:00").toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+    : null;
+
+  const isOverdue =
+    goal.deadline &&
+    goal.status === "active" &&
+    new Date(goal.deadline + "T23:59:59") < new Date();
+
   return (
     <div className="rounded-xl border border-zinc-100 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-800/40">
       <div className="mb-3 flex items-start justify-between gap-2">
-        <div>
-          <div className="flex items-center gap-2">
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-1.5">
             <Badge
               label={goal.category}
               colorClass={CATEGORY_COLORS[goal.category]}
+            />
+            <Badge
+              label={goal.priority}
+              colorClass={PRIORITY_COLORS[goal.priority]}
             />
             {goal.status === "completed" && (
               <Badge
@@ -175,16 +222,30 @@ function GoalItem({
                 colorClass="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
               />
             )}
+            {deadlineLabel && (
+              <span
+                className={`text-xs ${
+                  isOverdue
+                    ? "font-semibold text-red-500"
+                    : "text-zinc-400 dark:text-zinc-500"
+                }`}
+              >
+                {isOverdue ? "⚠ " : "📅 "}
+                {deadlineLabel}
+              </span>
+            )}
           </div>
           <p
-            className={`mt-1 font-medium text-zinc-900 dark:text-zinc-100 ${goal.status === "completed" ? "line-through opacity-60" : ""}`}
+            className={`mt-1.5 font-medium text-zinc-900 dark:text-zinc-100 ${
+              goal.status === "completed" ? "line-through opacity-60" : ""
+            }`}
           >
             {goal.title}
           </p>
         </div>
         <button
           onClick={() => onDelete(goal.id)}
-          className="rounded-lg p-1.5 text-zinc-400 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950"
+          className="shrink-0 rounded-lg p-1.5 text-zinc-400 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-950"
           aria-label={`Delete goal ${goal.title}`}
         >
           <TrashIcon />
@@ -194,7 +255,9 @@ function GoalItem({
       {/* Progress bar */}
       <div className="mb-2 h-2 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700">
         <div
-          className="h-full rounded-full bg-indigo-500 transition-all duration-300"
+          className={`h-full rounded-full transition-all duration-300 ${
+            goal.status === "completed" ? "bg-emerald-500" : "bg-indigo-500"
+          }`}
           style={{ width: `${goal.progress}%` }}
         />
       </div>
@@ -209,16 +272,10 @@ function GoalItem({
               max={100}
               step={5}
               value={goal.progress}
-              onChange={(e) =>
-                onProgressChange(goal.id, Number(e.target.value))
-              }
+              onChange={(e) => onProgressChange(goal.id, Number(e.target.value))}
               className="w-24 accent-indigo-600"
             />
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onComplete(goal.id)}
-            >
+            <Button variant="ghost" size="sm" onClick={() => onComplete(goal.id)}>
               Complete
             </Button>
           </div>

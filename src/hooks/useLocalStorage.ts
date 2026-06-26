@@ -1,17 +1,7 @@
 "use client";
 
-import { useCallback, useSyncExternalStore } from "react";
+import { useCallback, useRef, useSyncExternalStore } from "react";
 
-function readStorage<T>(key: string, fallback: T): T {
-  try {
-    const item = window.localStorage.getItem(key);
-    return item !== null ? (JSON.parse(item) as T) : fallback;
-  } catch {
-    return fallback;
-  }
-}
-
-/** In-tab updates trigger re-reads via a custom event */
 function subscribeToKey(key: string, onStoreChange: () => void) {
   const handler = () => onStoreChange();
   window.addEventListener("storage", handler);
@@ -23,17 +13,32 @@ function subscribeToKey(key: string, onStoreChange: () => void) {
 }
 
 /**
- * Persist state in localStorage using useSyncExternalStore
- * for SSR-safe reads without effect-based hydration.
+ * Persist state in localStorage using useSyncExternalStore.
+ * The snapshot is cached by raw string so the same object reference is
+ * returned when the stored value hasn't changed, preventing the
+ * "getSnapshot result should be cached" infinite-loop warning.
  */
 export function useLocalStorage<T>(
   key: string,
   initialValue: T
 ): [T, (value: T | ((prev: T) => T)) => void, boolean] {
-  const getSnapshot = useCallback(
-    () => readStorage(key, initialValue),
-    [key, initialValue]
-  );
+  // Holds the last seen raw string and its parsed form
+  const cache = useRef<{ raw: string | null; parsed: T } | null>(null);
+
+  const getSnapshot = useCallback((): T => {
+    try {
+      const raw = window.localStorage.getItem(key);
+      // Return cached reference when the raw string is unchanged
+      if (cache.current !== null && cache.current.raw === raw) {
+        return cache.current.parsed;
+      }
+      const parsed = raw !== null ? (JSON.parse(raw) as T) : initialValue;
+      cache.current = { raw, parsed };
+      return parsed;
+    } catch {
+      return initialValue;
+    }
+  }, [key, initialValue]);
 
   const storedValue = useSyncExternalStore(
     (onStoreChange) => subscribeToKey(key, onStoreChange),
@@ -43,10 +48,15 @@ export function useLocalStorage<T>(
 
   const setValue = useCallback(
     (value: T | ((prev: T) => T)) => {
-      const current = readStorage(key, initialValue);
-      const next = value instanceof Function ? value(current) : value;
-      window.localStorage.setItem(key, JSON.stringify(next));
-      window.dispatchEvent(new Event(`local-storage:${key}`));
+      try {
+        const raw = window.localStorage.getItem(key);
+        const current = raw !== null ? (JSON.parse(raw) as T) : initialValue;
+        const next = value instanceof Function ? value(current) : value;
+        window.localStorage.setItem(key, JSON.stringify(next));
+        window.dispatchEvent(new Event(`local-storage:${key}`));
+      } catch {
+        // ignore write errors
+      }
     },
     [key, initialValue]
   );

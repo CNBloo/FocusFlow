@@ -110,7 +110,7 @@ export function DiceRollSection() {
         <button
           onClick={handleRoll}
           disabled={isRolling || ideas.length === 0}
-          className="group relative flex h-28 w-28 items-center justify-center rounded-3xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/30 transition-transform hover:scale-105 active:scale-95 disabled:opacity-60 disabled:hover:scale-100"
+          className="group relative flex h-28 w-28 items-center justify-center rounded-3xl bg-linear-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/30 transition-transform hover:scale-105 active:scale-95 disabled:opacity-60 disabled:hover:scale-100"
           aria-label="Roll the dice"
         >
           <span

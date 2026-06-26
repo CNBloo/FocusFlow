@@ -55,7 +55,7 @@ export function DashboardHeader({ theme, onToggleTheme }: DashboardHeaderProps) 
       </div>
 
       {/* Date & motivation */}
-      <div className="rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-600 p-6 text-white shadow-lg shadow-indigo-500/20">
+      <div className="rounded-2xl bg-linear-to-r from-indigo-500 to-violet-600 p-6 text-white shadow-lg shadow-indigo-500/20">
         <p className="text-sm font-medium text-indigo-100">
           {formatTodayDate()}
         </p>
