@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FocusFlow
+
+A personal productivity dashboard built to help you stay focused, build habits, and track long-term goals — without the noise.
+
+
+## Features
+
+**🎲 Roll Instead of Scrolling**  
+When the urge to doom-scroll hits, roll for a random productive activity from your custom idea bank. Categories include Fitness, Learning, and Productivity.
+
+**⏱️ Focus Mode**  
+Built-in Pomodoro-style timer with 5, 15, and 25-minute presets. Set it and stay off your phone.
+
+**🎯 Goals**  
+Track long-term goals across categories and visualize your progress over time.
+
+**✅ Daily Tasks**  
+Quick-win task list for the day, with priority levels to keep things manageable.
+
+**🔁 Daily Habits**  
+Check off recurring habits (LeetCode, workout, reading, hydration, sleep) and build your streak.
+
+**📰 Stay Updated in Tech**  
+Curated tech headlines across Cloud, Cybersecurity, Startups, and AI — refreshable on demand, no feed required.
+
+**📊 Weekly Summary**  
+At-a-glance stats: activities completed, tasks done, goals finished, and average goal progress.
+
+**Coming Soon:** Budget Tracker · Meal & Calorie Log · Marathon Prep · Calendar & Schedule
+
+## Tech Stack
+
+- [Next.js 14](https://nextjs.org/) — App Router
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) with [Geist](https://vercel.com/font)
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To start editing, modify `app/page.tsx` — the page hot-reloads as you save.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+```
+app/
+├── dashboard/        # Main dashboard layout and widgets
+├── components/       # Reusable UI components
+├── page.tsx          # Entry point
+public/               # Static assets
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Deploy instantly with [Vercel](https://vercel.com/new):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npx vercel
+```
 
-## Deploy on Vercel
+Or connect your GitHub repo to Vercel for automatic deployments on every push.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See the [Next.js deployment docs](https://nextjs.org/docs/app/building-your-application/deploying) for other options.
