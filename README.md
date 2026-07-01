@@ -30,7 +30,7 @@ At-a-glance stats: activities completed, tasks done, goals finished, and average
 
 ## Tech Stack
 
-- [Next.js 14](https://nextjs.org/) — App Router
+- [Next.js 16](https://nextjs.org/) — App Router
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) with [Geist](https://vercel.com/font)
@@ -44,15 +44,22 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
 
-To start editing, modify `app/page.tsx` — the page hot-reloads as you save.
+To start editing, modify `src/app/page.tsx` — the page hot-reloads as you save.
 
 ## Project Structure
 
 ```
-app/
-├── dashboard/        # Main dashboard layout and widgets
-├── components/       # Reusable UI components
-├── page.tsx          # Entry point
+src/
+├── app/
+│   ├── dashboard/    # Main dashboard page
+│   └── page.tsx      # Landing page
+├── components/
+│   ├── features/     # Feature widgets (dice, habits, goals, tasks, timer, news)
+│   ├── layout/       # Dashboard shell and header
+│   ├── shared/       # Icons and placeholder components
+│   └── ui/           # Reusable primitives (Button, Card, Input, etc.)
+├── hooks/            # Custom React hooks (useLocalStorage)
+└── lib/              # Types, constants, utilities
 public/               # Static assets
 ```
 
